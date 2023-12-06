@@ -1,14 +1,17 @@
-import exampleData from './data.json';
-import { Menu } from './Menu';
+import data from '../build/data.json';
+import type { FunctionsData } from '../scripts/transform';
 import { FnDoc } from './FnDoc';
+import { Menu } from './Menu';
+
+const FUNCTIONS_DATA = data as unknown as FunctionsData;
 
 export function Docs() {
   return (
     <div className="container-fluid">
       <div className="row flex-xl-nowrap">
-        <Menu items={exampleData} />
-        <div className="col-12 col-md-9 col-xl-10 py-md-3 main-content">
-          {exampleData.map((data: any) => (
+        <Menu items={FUNCTIONS_DATA} />
+        <div className="col-12 col-md-9 col-xl-10 py-md-3 h-[calc(100vh-56px)] overflow-auto">
+          {FUNCTIONS_DATA.map(data => (
             <FnDoc {...data} key={data.name} />
           ))}
         </div>

@@ -9,13 +9,13 @@ import { purry } from './purry';
  *    R.addProp(obj, prop, value)
  * @example
  *    R.addProp({firstName: 'john'}, 'lastName', 'doe') // => {firstName: 'john', lastName: 'doe'}
- * @data_first
+ * @dataFirst
  * @category Object
  */
 export function addProp<
   T extends Record<PropertyKey, any>,
   K extends string,
-  V
+  V,
 >(obj: T, prop: K, value: V): T & { [x in K]: V };
 
 /**
@@ -26,13 +26,13 @@ export function addProp<
  *    R.addProp(prop, value)(obj)
  * @example
  *    R.addProp('lastName', 'doe')({firstName: 'john'}) // => {firstName: 'john', lastName: 'doe'}
- * @data_last
+ * @dataLast
  * @category Object
  */
 export function addProp<
   T extends Record<PropertyKey, any>,
   K extends string,
-  V
+  V,
 >(prop: K, value: V): (obj: T) => T & { [x in K]: V };
 
 export function addProp(): any {

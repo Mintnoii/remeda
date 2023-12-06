@@ -14,7 +14,6 @@ documentation when migrating._
 | `chunk`             | `chunk`             | `-`                 |
 | `clamp`             | `clamp`             | `clamp`             |
 | `clone`             | `cloneDeep`         | `clone`             |
-| `compact`           | `compact`           | `-`                 |
 | `concat`            | `concat`            | `concat`            |
 | `createPipe`        | `-`                 | `-`                 |
 | `difference`        | `difference`        | `difference`        |
@@ -65,10 +64,11 @@ documentation when migrating._
 | `range`             | `range`             | `range`             |
 | `reduce`            | `reduce`            | `reduce`            |
 | `reject`            | `reject`            | `reject`            |
+| `splice`            | `-`                 | `remove`            |
 | `reverse`           | `reverse`           | `reverse`           |
 | `sample`            | `sampleSize`\*      |                     |
-| `set`               | `set`               | `set`               |
-| `setPath`           | `set`               | `set`               |
+| `set`               | `set`               | `assoc`             |
+| `setPath`           | `set`               | `assocPath`         |
 | `shuffle`           | `shuffle`           | `-`                 |
 | `sort`              | `-`                 | `sort`              |
 | `sortBy`            | `orderBy`           | `-`                 |
@@ -114,3 +114,4 @@ you are relying on when migrating._
 | `-`        | `propEq` | `x => x.a === value`          |
 | `-`        | `propOr` | `x => x.a ?? defaultValue`    |
 | `words`    | `-`      | `str => str.split(/\s+/)`     |
+| `compact`  | `-`      | `R.filter(R.isTruthy)`        |

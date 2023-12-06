@@ -9,7 +9,7 @@ type Comparable = ComparablePrimitive | { valueOf(): ComparablePrimitive };
 type SortProjection<T> = (x: T) => Comparable;
 type SortPair<T> = readonly [
   projector: SortProjection<T>,
-  direction: Direction
+  direction: Direction,
 ];
 type SortRule<T> = SortProjection<T> | SortPair<T>;
 
@@ -41,7 +41,7 @@ const COMPARATOR = {
  *      [{ a: 1 }, { a: 3 }] as const,
  *      R.sortBy.strict(x => x.a)
  *    ) // => [{ a: 1 }, { a: 3 }] typed [{a: 1 | 3}, {a: 1 | 3}]
- * @data_last
+ * @dataLast
  * @category Array
  * @strict
  */
@@ -92,7 +92,7 @@ export function sortBy<T>(
  *      x => x.a
  *    )
  *    // => [{ a: 1 }, { a: 3 }] typed [{a: 1 | 3}, {a: 1 | 3}]
- * @data_first
+ * @dataFirst
  * @category Array
  * @strict
  */
@@ -133,7 +133,6 @@ function isSortRule<T>(x: ReadonlyArray<T> | SortRule<T>): x is SortRule<T> {
 
   return (
     typeof maybeProjection === 'function' &&
-    // eslint-disable-next-line @typescript-eslint/prefer-includes -- we use an old lib
     ALL_DIRECTIONS.indexOf(maybeDirection as Direction) !== -1
   );
 }

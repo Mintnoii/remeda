@@ -2,7 +2,7 @@ import { IterableContainer } from './_types';
 
 type Entry<Key extends PropertyKey = PropertyKey, Value = unknown> = readonly [
   key: Key,
-  value: Value
+  value: Value,
 ];
 
 /**
@@ -55,10 +55,10 @@ type Strict = <Entries extends IterableContainer<Entry>>(
 type StrictOut<Entries> = Entries extends readonly [infer First, ...infer Tail]
   ? FromPairsTuple<First, Tail>
   : Entries extends readonly [...infer Head, infer Last]
-  ? FromPairsTuple<Last, Head>
-  : Entries extends IterableContainer<Entry>
-  ? FromPairsArray<Entries>
-  : 'ERROR: Entries array-like could not be infered';
+    ? FromPairsTuple<Last, Head>
+    : Entries extends IterableContainer<Entry>
+      ? FromPairsArray<Entries>
+      : 'ERROR: Entries array-like could not be infered';
 
 // For strict tuples we build the result by intersecting each pair as a record
 // between it's key and value, recursively. The recursion goes through our main
@@ -81,10 +81,10 @@ type FromPairsArray<Entries extends IterableContainer<Entry>> =
   string extends AllKeys<Entries>
     ? Record<string, Entries[number][1]>
     : number extends AllKeys<Entries>
-    ? Record<number, Entries[number][1]>
-    : symbol extends AllKeys<Entries>
-    ? Record<symbol, Entries[number][1]>
-    : FromPairsArrayWithLiteralKeys<Entries>;
+      ? Record<number, Entries[number][1]>
+      : symbol extends AllKeys<Entries>
+        ? Record<symbol, Entries[number][1]>
+        : FromPairsArrayWithLiteralKeys<Entries>;
 
 // This type is largely copied from `objectFromEntries` in the repo:
 // *sindresorhus/ts-extras* but makes all properties of the output optional,
@@ -102,7 +102,7 @@ type AllKeys<Entries extends IterableContainer<Entry>> = Extract<
 
 type ValueForKey<
   Entries extends IterableContainer<Entry>,
-  K extends PropertyKey
+  K extends PropertyKey,
 > =
   // I tried and failed to simplify the type here! What the ternary does here is
   // to support the cases where the entries are defined by a single type that

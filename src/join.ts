@@ -8,16 +8,16 @@ export type Joined<T extends IterableContainer, Glue extends string> =
   T[number] extends never
     ? ''
     : // Single item tuple (could be optional too!)
-    T extends readonly [Joinable?]
-    ? `${NullishCoalesce<T[0], ''>}`
-    : // Tuple with non-rest element (head)
-    T extends readonly [infer First, ...infer Tail]
-    ? `${NullishCoalesce<First, ''>}${Glue}${Joined<Tail, Glue>}`
-    : // Tuple with non-rest element (tail)
-    T extends readonly [...infer Head, infer Last]
-    ? `${Joined<Head, Glue>}${Glue}${NullishCoalesce<Last, ''>}`
-    : // Arrays and tuple rest-elements, we can't say anything about the output
-      string;
+      T extends readonly [Joinable?]
+      ? `${NullishCoalesce<T[0], ''>}`
+      : // Tuple with non-rest element (head)
+        T extends readonly [infer First, ...infer Tail]
+        ? `${NullishCoalesce<First, ''>}${Glue}${Joined<Tail, Glue>}`
+        : // Tuple with non-rest element (tail)
+          T extends readonly [...infer Head, infer Last]
+          ? `${Joined<Head, Glue>}${Glue}${NullishCoalesce<Last, ''>}`
+          : // Arrays and tuple rest-elements, we can't say anything about the output
+            string;
 
 // `undefined` and `null` are special-cased by join. In typescript
 // `${undefined}` === 'undefined' (and similarly for null), but specifically in
@@ -45,12 +45,12 @@ type NullishCoalesce<T, Fallback> = T extends Joinable
  *    R.join([1,2,3], ",") // => "1,2,3" (typed `string`)
  *    R.join(['a','b','c'], "") // => "abc" (typed `string`)
  *    R.join(['hello', 'world'] as const, " ") // => "hello world" (typed `hello world`)
- * @data_first
+ * @dataFirst
  * @category Array
  */
 export function join<
   T extends ReadonlyArray<Joinable> | [],
-  Glue extends string
+  Glue extends string,
 >(data: T, glue: Glue): Joined<T, Glue>;
 
 /**
@@ -69,12 +69,12 @@ export function join<
  *    R.pipe([1,2,3], R.join(",")) // => "1,2,3" (typed `string`)
  *    R.pipe(['a','b','c'], R.join("")) // => "abc" (typed `string`)
  *    R.pipe(['hello', 'world'] as const, R.join(" ")) // => "hello world" (typed `hello world`)
- * @data_last
+ * @dataLast
  * @category Array
  */
 export function join<
   T extends ReadonlyArray<Joinable> | [],
-  Glue extends string
+  Glue extends string,
 >(glue: Glue): (data: T) => Joined<T, Glue>;
 
 export function join(): unknown {

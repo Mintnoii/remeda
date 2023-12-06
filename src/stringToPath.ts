@@ -3,7 +3,7 @@
  * @param path a string path
  * @signature R.stringToPathArray(path)
  * @example R.stringToPathArray('a.b[0].c') // => ['a', 'b', 0, 'c']
- * @data_first
+ * @dataFirst
  * @category String
  */
 export function stringToPath<Path extends string>(
@@ -27,9 +27,9 @@ function _stringToPath(path: string): Array<string> {
 export type StringToPath<T extends string> = T extends ''
   ? []
   : T extends `[${infer Head}].${infer Tail}`
-  ? [Head, ...StringToPath<Tail>]
-  : T extends `.${infer Head}${infer Tail}`
-  ? [Head, ...StringToPath<Tail>]
-  : T extends `${infer Head}${infer Tail}`
-  ? [Head, ...StringToPath<Tail>]
-  : [T];
+    ? [Head, ...StringToPath<Tail>]
+    : T extends `.${infer Head}${infer Tail}`
+      ? [Head, ...StringToPath<Tail>]
+      : T extends `${infer Head}${infer Tail}`
+        ? [Head, ...StringToPath<Tail>]
+        : [T];

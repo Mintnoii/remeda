@@ -13,7 +13,7 @@ import { NonEmptyArray, PredIndexedOptional, PredIndexed } from './_types';
  *    R.groupBy(['one', 'two', 'three'], x => x.length) // => {3: ['one', 'two'], 5: ['three']}
  *    R.groupBy.strict([{a: 'cat'}, {a: 'dog'}] as const, prop('a')) // => {cat: [{a: 'cat'}], dog: [{a: 'dog'}]} typed Partial<Record<'cat' | 'dog', NonEmptyArray<{a: 'cat' | 'dog'}>>>
  *    R.groupBy([0, 1], x => x % 2 === 0 ? 'even' : undefined) // => {even: [0]}
- * @data_first
+ * @dataFirst
  * @indexed
  * @strict
  * @category Array
@@ -34,7 +34,7 @@ export function groupBy<T>(
  *    R.groupBy(fn)(array)
  * @example
  *    R.pipe(['one', 'two', 'three'], R.groupBy(x => x.length)) // => {3: ['one', 'two'], 5: ['three']}
- * @data_last
+ * @dataLast
  * @indexed
  * @category Array
  */
@@ -102,13 +102,13 @@ type StrictOut<Value, Key extends PropertyKey = PropertyKey> =
   string extends Key
     ? Record<Key, NonEmptyArray<Value>>
     : number extends Key
-    ? Record<Key, NonEmptyArray<Value>>
-    : symbol extends Key
-    ? Record<Key, NonEmptyArray<Value>>
-    : // If the key is specific, e.g. 'cat' | 'dog', the result is partial
-      // because we can't statically know what values the mapper would return on
-      // a specific input
-      Partial<Record<Key, NonEmptyArray<Value>>>;
+      ? Record<Key, NonEmptyArray<Value>>
+      : symbol extends Key
+        ? Record<Key, NonEmptyArray<Value>>
+        : // If the key is specific, e.g. 'cat' | 'dog', the result is partial
+          // because we can't statically know what values the mapper would return on
+          // a specific input
+          Partial<Record<Key, NonEmptyArray<Value>>>;
 
 export namespace groupBy {
   export function indexed<T>(

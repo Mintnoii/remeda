@@ -24,7 +24,7 @@ import {
  *    R.map.indexed([0, 0, 0], (x, i) => i) // => [0, 1, 2], typed number[]
  *    R.map.strict([0, 0] as const, x => x + 1) // => [1, 1], typed [number, number]
  *    R.map.strict.indexed([0, 0] as const, (x, i) => x + i) // => [0, 1], typed [number, number]
- * @data_first
+ * @dataFirst
  * @indexed
  * @pipeable
  * @strict
@@ -41,7 +41,7 @@ export function map<T, K>(array: ReadonlyArray<T>, fn: Pred<T, K>): Array<K>;
  * @example
  *    R.pipe([0, 1, 2], R.map(x => x * 2)) // => [0, 2, 4]
  *    R.pipe([0, 0, 0], R.map.indexed((x, i) => i)) // => [0, 1, 2]
- * @data_last
+ * @dataLast
  * @indexed
  * @pipeable
  * @category Array
@@ -84,9 +84,9 @@ interface Strict {
     mapper: Pred<T[number], K>
   ): StrictOut<T, K>;
 
-  <T extends IterableContainer, K>(mapper: Pred<T[number], K>): (
-    items: T
-  ) => StrictOut<T, K>;
+  <T extends IterableContainer, K>(
+    mapper: Pred<T[number], K>
+  ): (items: T) => StrictOut<T, K>;
 
   readonly indexed: {
     <T extends IterableContainer, K>(
@@ -94,9 +94,9 @@ interface Strict {
       mapper: PredIndexed<T[number], K>
     ): StrictOut<T, K>;
 
-    <T extends IterableContainer, K>(mapper: PredIndexed<T[number], K>): (
-      items: T
-    ) => StrictOut<T, K>;
+    <T extends IterableContainer, K>(
+      mapper: PredIndexed<T[number], K>
+    ): (items: T) => StrictOut<T, K>;
   };
 }
 

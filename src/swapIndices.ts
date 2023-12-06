@@ -13,7 +13,7 @@ type isEqual<A, B> = (<G>() => G extends A ? 1 : 2) extends <G>() => G extends B
 
 type Difference<A extends number, B extends number> = TupleOfLength<A> extends [
   ...infer U,
-  ...TupleOfLength<B>
+  ...TupleOfLength<B>,
 ]
   ? U['length']
   : never;
@@ -21,61 +21,61 @@ type Difference<A extends number, B extends number> = TupleOfLength<A> extends [
 type isLessThan<A extends number, B extends number> = isEqual<A, B> extends true
   ? false
   : 0 extends A
-  ? true
-  : 0 extends B
-  ? false
-  : isLessThan<Difference<A, 1>, Difference<B, 1>>;
+    ? true
+    : 0 extends B
+      ? false
+      : isLessThan<Difference<A, 1>, Difference<B, 1>>;
 
 type TupleOfLength<
   L extends number,
-  T extends IterableContainer = []
+  T extends IterableContainer = [],
 > = T['length'] extends L ? T : TupleOfLength<L, [...T, unknown]>;
 
 type IsNonNegative<T extends number> = number extends T
   ? false
   : `${T}` extends `-${string}`
-  ? false
-  : true;
+    ? false
+    : true;
 
 type CharactersTuple<T extends string> = string extends T
   ? Array<string>
   : T extends `${infer C}${infer R}`
-  ? [C, ...CharactersTuple<R>]
-  : [];
+    ? [C, ...CharactersTuple<R>]
+    : [];
 
 type SwapArrayInternal<
   T extends IterableContainer,
   Index1 extends number,
   Index2 extends number,
   Position extends ReadonlyArray<unknown> = [],
-  Original extends IterableContainer = T
+  Original extends IterableContainer = T,
 > = T extends readonly [infer AtPosition, ...infer Rest]
   ? [
       Position['length'] extends Index1
         ? Original[Index2]
         : Position['length'] extends Index2
-        ? Original[Index1]
-        : AtPosition,
+          ? Original[Index1]
+          : AtPosition,
       ...SwapArrayInternal<
         Rest,
         Index1,
         Index2,
         [unknown, ...Position],
         Original
-      >
+      >,
     ]
   : T;
 
 type SwapString<
   T extends string,
   K1 extends number,
-  K2 extends number
+  K2 extends number,
 > = Joined<SwapArray<CharactersTuple<T>, K1, K2>, ''>;
 
 type SwapArray<
   T extends IterableContainer,
   K1 extends number,
-  K2 extends number
+  K2 extends number,
 > =
   // TODO [typescript@>4.6]: Because of limitations on the typescript version
   // used in Remeda we can't build a proper Absolute number type so we can't
@@ -86,24 +86,24 @@ type SwapArray<
   IsNonNegative<K1> extends false
     ? Array<T[number]>
     : IsNonNegative<K2> extends false
-    ? Array<T[number]>
-    : // If the indices are not within the input arrays range the result would be
-    // trivially the same as the input array.
-    isLessThan<K1, T['length']> extends false
-    ? T
-    : isLessThan<K2, T['length']> extends false
-    ? T
-    : SwapArrayInternal<T, K1, K2>;
+      ? Array<T[number]>
+      : // If the indices are not within the input arrays range the result would be
+        // trivially the same as the input array.
+        isLessThan<K1, T['length']> extends false
+        ? T
+        : isLessThan<K2, T['length']> extends false
+          ? T
+          : SwapArrayInternal<T, K1, K2>;
 
 type SwappedIndices<
   T extends IterableContainer | string,
   K1 extends number,
-  K2 extends number
+  K2 extends number,
 > = T extends string
   ? SwapString<T, K1, K2>
   : T extends IterableContainer
-  ? SwapArray<T, K1, K2>
-  : never;
+    ? SwapArray<T, K1, K2>
+    : never;
 
 /**
  * Swaps the positions of two elements in an array or string at the provided indices.
@@ -128,12 +128,12 @@ type SwappedIndices<
  *
  * @returns Returns the manipulated array or string.
  *
- * @data_first
+ * @dataFirst
  */
 export function swapIndices<
   T extends IterableContainer | string,
   K1 extends number,
-  K2 extends number
+  K2 extends number,
 >(data: T, index1: K1, index2: K2): SwappedIndices<T, K1, K2>;
 
 /**
@@ -149,7 +149,7 @@ export function swapIndices<
  *
  * @category Array
  * @returns Returns the manipulated array or string.
- * @data_last
+ * @dataLast
  */
 export function swapIndices<K1 extends number, K2 extends number>(
   index1: K1,
